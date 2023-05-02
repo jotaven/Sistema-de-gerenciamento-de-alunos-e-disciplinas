@@ -174,7 +174,9 @@ public class Main {
 
                     case 2:
                         System.out.println("\n•Deletar disciplina\n");
-                        System.out.println("Digite o nome da disciplina:");
+                        System.out.println("Disciplinas:");
+                        alunoBusca.mostrarDisciplinas();
+                        System.out.println("\nDigite o nome da disciplina:");
                         String deletaDisciplina = sc.nextLine();
 
                         Boolean deletaDisciplinaBusca = alunoBusca.removerDisciplina(deletaDisciplina);
@@ -190,7 +192,9 @@ public class Main {
 
                     case 3:
                         System.out.println("\n•Alterar disciplina\n");
-                        System.out.println("Digite o nome da disciplina:");
+                        System.out.println("Disciplinas:");
+                        alunoBusca.mostrarDisciplinas();
+                        System.out.println("\nDigite o nome da disciplina:");
                         String disciplina = sc.nextLine();
 
                         Disciplina disciplinaBusca = alunoBusca.buscarDisciplina(disciplina);
@@ -214,7 +218,7 @@ public class Main {
 
                             limpaTela();
 
-                            System.out.println("Disciplinas do aluno : " + alunoBusca.getNome());
+                            System.out.println("Disciplinas do aluno: " + alunoBusca.getNome());
                             alunoBusca.mostrarDisciplinas();
                             switch (opcaoDisciplinaBusca) {
                                 case 1:
@@ -237,6 +241,7 @@ public class Main {
                                     break;
 
                                 case 0:
+                                    limpaTela();
                                     opcaoBusca = 0;
                                     break;
 
