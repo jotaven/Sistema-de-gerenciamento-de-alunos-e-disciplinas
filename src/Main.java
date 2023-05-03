@@ -10,7 +10,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         ListaAlunos listaAlunos = new ListaAlunos(TAMANHO_LISTA);
 
-        int opcao;
+        char ch;
         do {
             System.out.println("\n--------MENU--------");
             System.out.println("Escolha uma opção:");
@@ -20,35 +20,18 @@ public class Main {
             System.out.println("4 - Remover aluno");
             System.out.println("0 - Sair");
 
-            opcao = sc.nextInt();
-            sc.nextLine();
+            ch = sc.nextLine().charAt(0);
+
             limpaTela();
-            switch (opcao) {
-                case 1:
-                    cadastrarAluno(listaAlunos);
-                    break;
-
-                case 2:
-                    mostarAlunos(listaAlunos);
-                    break;
-
-                case 3:
-                    buscaAluno(listaAlunos);
-                    break;
-
-                case 4:
-                    removerAluno(listaAlunos);
-                    break;
-
-                case 0:
-                    System.out.println("Encerrando...");
-                    break;
-
-                default:
-                    System.out.println("Opção inválida");
-                    break;
+            switch (ch) {
+                case '1' -> cadastrarAluno(listaAlunos);
+                case '2' -> mostarAlunos(listaAlunos);
+                case '3' -> buscaAluno(listaAlunos);
+                case '4' -> removerAluno(listaAlunos);
+                case '0' -> System.out.println("Encerrando...");
+                default -> System.out.println("Opção inválida");
             }
-        } while (opcao != 0);
+        } while (ch != '0');
 
         sc.close();
     }
@@ -63,14 +46,25 @@ public class Main {
         System.out.println("Informe o nome do aluno:");
         String nomeAluno = sc.nextLine();
 
-        System.out.println("Deseja cadastrar uma disciplina ao aluno? (1 - Sim, 2 - Não)");
-        int opcaoDisciplina = sc.nextInt();
-        sc.nextLine();
+        char opcaoDisciplina;
+        boolean respostaValida;
+        do {
+            System.out.println("Deseja cadastrar uma disciplina ao aluno? (1 - Sim, 2 - Não)");
+            opcaoDisciplina = sc.nextLine().charAt(0);
+
+            if (opcaoDisciplina == '1' || opcaoDisciplina == '2') {
+                respostaValida = true;
+            } else {
+                System.out.println("\nOpção inválida. Por favor, digite 1 para sim ou 2 para não.\n");
+                respostaValida = false;
+            }
+        } while (!respostaValida);
+
 
         ListaDisciplinas listaDisciplinas = new ListaDisciplinas();
 
 
-        while (opcaoDisciplina == 1) {
+        while (opcaoDisciplina == '1') {
             System.out.println("\n•Cadastro de disciplinas do aluno");
             System.out.println("Informe o nome da disciplina:");
             String nomeDisciplina = sc.nextLine();
@@ -85,9 +79,17 @@ public class Main {
             Disciplina disciplina = new Disciplina(nomeDisciplina, cargaHoraria, nota);
             listaDisciplinas.adicionarDisciplina(disciplina);
 
-            System.out.println("Mais alguma disciplina? (1 - Sim, 2 - Não)");
-            opcaoDisciplina = sc.nextInt();
-            sc.nextLine();
+            do {
+                System.out.println("Deseja cadastrar mais uma disciplina ao aluno? (1 - Sim, 2 - Não)");
+                opcaoDisciplina = sc.nextLine().charAt(0);
+
+                if (opcaoDisciplina == '1' || opcaoDisciplina == '2') {
+                    respostaValida = true;
+                } else {
+                    System.out.println("\nOpção inválida. Por favor, digite 1 para sim ou 2 para não.\n");
+                    respostaValida = false;
+                }
+            } while (!respostaValida);
             limpaTela();
         }
 
@@ -125,8 +127,8 @@ public class Main {
         }
 
 
-        int opcaoBusca = -1;
-        while (opcaoBusca != 0) {
+        char chBusca;
+        do {
             limpaTela();
             System.out.println("RGM: " + alunoBusca.getRgm());
             System.out.println("Nome: " + alunoBusca.getNome());
@@ -142,15 +144,14 @@ public class Main {
                 System.out.println("3 - Alterar disciplina");
                 System.out.println("0 - Voltar");
 
-                opcaoBusca = sc.nextInt();
-                sc.nextLine();
+                chBusca = sc.nextLine().charAt(0);
                 limpaTela();
 
 
-                switch (opcaoBusca) {
-                    case 1:
-                        int opcaoNovaDisciplina = 1;
-                        while (opcaoNovaDisciplina == 1) {
+                switch (chBusca) {
+                    case '1':
+                        char chNovaDisciplina;
+                        do {
                             System.out.println("•Adicionar disciplina\n");
                             System.out.println("Informe o nome da disciplina:");
                             String nomeDisciplina = sc.nextLine();
@@ -166,31 +167,40 @@ public class Main {
 
                             alunoBusca.adicionarDisciplina(novaDisciplina);
 
-                            System.out.println("Mais alguma disciplina? (1 - Sim, 2 - Não)");
-                            opcaoNovaDisciplina = sc.nextInt();
-                            sc.nextLine();
-                        }
+                            boolean respostaValida;
+                            do {
+                                System.out.println("Mais alguma disciplina? (1 - Sim, 2 - Não)");
+                                chNovaDisciplina = sc.nextLine().charAt(0);
+
+                                if (chNovaDisciplina == '1' || chNovaDisciplina == '2') {
+                                    respostaValida = true;
+                                } else {
+                                    System.out.println("\nOpção inválida. Por favor, digite 1 para sim ou 2 para não.\n");
+                                    respostaValida = false;
+                                }
+                            } while (!respostaValida);
+
+                        } while (chNovaDisciplina == '1');
                         break;
 
-                    case 2:
+                    case '2':
                         System.out.println("\n•Deletar disciplina\n");
                         System.out.println("Disciplinas:");
                         alunoBusca.mostrarDisciplinas();
                         System.out.println("\nDigite o nome da disciplina:");
                         String deletaDisciplina = sc.nextLine();
 
-                        Boolean deletaDisciplinaBusca = alunoBusca.removerDisciplina(deletaDisciplina);
-                        if(deletaDisciplinaBusca == false) {
+                        boolean deletaDisciplinaBusca = alunoBusca.removerDisciplina(deletaDisciplina);
+                        if(!deletaDisciplinaBusca) {
                             System.out.println("\u001b[36;1mDisciplina inválida!\u001b[0m");
                             sleep(1000);
-                            opcaoBusca = -1;
                             break;
                         }
 
                         System.out.println("Disciplina removida com sucesso! ");
                         break;
 
-                    case 3:
+                    case '3':
                         System.out.println("\n•Alterar disciplina\n");
                         System.out.println("Disciplinas:");
                         alunoBusca.mostrarDisciplinas();
@@ -201,59 +211,61 @@ public class Main {
                         if(disciplinaBusca == null) {
                             System.out.println("\u001b[31mDisciplina inválida!\u001b[0m");
                             sleep(1500);
-                            opcaoBusca = -1;
                             break;
                         }
 
-                        int opcaoDisciplinaBusca = -1;
-                        while(opcaoDisciplinaBusca != 0) {
+                        char chDisciplinaBusca;
+                        do {
                             System.out.println("\nEscolha uma opção:");
                             System.out.println("1 - Alterar nome");
                             System.out.println("2 - Alterar carga horária");
                             System.out.println("3 - Alterar nota");
                             System.out.println("0 - Voltar para o menu");
 
-                            opcaoDisciplinaBusca = sc.nextInt();
-                            sc.nextLine();
+                            chDisciplinaBusca = sc.nextLine().charAt(0);
 
                             limpaTela();
 
-                            System.out.println("Disciplinas do aluno: " + alunoBusca.getNome());
-                            alunoBusca.mostrarDisciplinas();
-                            switch (opcaoDisciplinaBusca) {
-                                case 1:
+                            switch (chDisciplinaBusca) {
+                                case '1':
+                                    System.out.println("Disciplinas do aluno: " + alunoBusca.getNome());
+                                    alunoBusca.mostrarDisciplinas();
                                     System.out.println("Qual o novo nome da disciplina?");
                                     String novoNomeDisciplina = sc.nextLine();
                                     disciplinaBusca.setNome(novoNomeDisciplina);
                                     break;
 
-                                case 2:
+                                case '2':
+                                    System.out.println("Disciplinas do aluno: " + alunoBusca.getNome());
+                                    alunoBusca.mostrarDisciplinas();
                                     System.out.println("Qual a nova carga horária da disciplina " + disciplina + "?");
                                     int novaCargaHorariaDisciplina = sc.nextInt();
                                     sc.nextLine();
                                     disciplinaBusca.setCargaHoraria(novaCargaHorariaDisciplina);
                                     break;
 
-                                case 3:
+                                case '3':
+                                    System.out.println("Disciplinas do aluno: " + alunoBusca.getNome());
+                                    alunoBusca.mostrarDisciplinas();
                                     System.out.println("Qual a nova nota do aluno na disciplina " + disciplina + "?");
                                     double novaNotaDisciplina = Double.parseDouble(sc.nextLine());
                                     disciplinaBusca.setNota(novaNotaDisciplina);
                                     break;
 
-                                case 0:
+                                case '0':
                                     limpaTela();
-                                    opcaoBusca = 0;
+                                    chBusca = '0';
                                     break;
 
                                 default:
-                                    System.out.println("\u001b[36;1mOpção inválida!\u001b[0m\n");
+                                    System.out.println("\n\u001b[36;1mOpção inválida!\u001b[0m");
                                     sleep(1000);
                                     break;
                             }
-                        }
+                        } while (chDisciplinaBusca != '0');
                         break;
 
-                    case 0:
+                    case '0':
                         System.out.println("Voltando...");
                         limpaTela();
                         break;
@@ -268,13 +280,11 @@ public class Main {
                 System.out.println("1 - Adicionar disciplina");
                 System.out.println("0 - Voltar");
 
-                opcaoBusca = sc.nextInt();
-                sc.nextLine();
+                chBusca = sc.nextLine().charAt(0);
                 limpaTela();
 
-                switch (opcaoBusca) {
-                    case 1:
-                        limpaTela();
+                switch (chBusca) {
+                    case '1':
                         int opcaoNovaDisciplina = 1;
                         while (opcaoNovaDisciplina == 1) {
                             System.out.println("•Adicionar disciplina\n");
@@ -292,13 +302,22 @@ public class Main {
 
                             alunoBusca.adicionarDisciplina(novaDisciplina);
 
-                            System.out.println("Mais alguma disciplina? (1 - Sim, 2 - Não)");
-                            opcaoNovaDisciplina = sc.nextInt();
-                            sc.nextLine();
+                            boolean respostaValida;
+                            do {
+                                System.out.println("Mais alguma disciplina? (1 - Sim, 2 - Não)");
+                                opcaoNovaDisciplina = sc.nextLine().charAt(0);
+
+                                if (opcaoNovaDisciplina == '1' || opcaoNovaDisciplina == '2') {
+                                    respostaValida = true;
+                                } else {
+                                    System.out.println("\nOpção inválida. Por favor, digite 1 para sim ou 2 para não.\n");
+                                    respostaValida = false;
+                                }
+                            } while (!respostaValida);
                         }
                         break;
 
-                    case 0:
+                    case '0':
                         System.out.println("Voltando...");
                         limpaTela();
                         break;
@@ -309,7 +328,7 @@ public class Main {
                         break;
                 }
             }
-        }
+        } while (chBusca != '0');
     }
 
     public static void removerAluno(ListaAlunos listaAlunos) {
@@ -322,12 +341,12 @@ public class Main {
         System.out.println("Informe o RGM do aluno:");
         int rgmRemover = sc.nextInt();
         sc.nextLine();
+        limpaTela();
         if (listaAlunos.removerAluno(rgmRemover)) {
             System.out.println("Aluno removido com sucesso!");
         } else {
             System.out.println("Aluno não encontrado");
         }
-
     }
 
     public static void limpaTela() {

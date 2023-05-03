@@ -14,16 +14,8 @@ public class Aluno {
         return rgm;
     }
 
-    public void setRgm(int rgm) {
-        this.rgm = rgm;
-    }
-
     public String getNome() {
         return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public ListaDisciplinas getDisciplinas() {
@@ -51,10 +43,7 @@ public class Aluno {
     }
 
     public boolean existeDisciplinas() {
-        if (this.disciplinas.getPrimeiraDisciplina() == null) {
-            return false;
-        }
-        return true;
+        return this.disciplinas.getPrimeiraDisciplina() != null;
     }
 
 }
